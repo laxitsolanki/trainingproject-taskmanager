@@ -36,7 +36,7 @@ function Task() {
     };
     const [inproModal, setinproModal] = useState(false);
     const modelpo = () => {
-      setinproModal(!inproModal);
+        setinproModal(!inproModal);
     };
     const add = (data) => {
         console.log(data)
@@ -54,7 +54,7 @@ function Task() {
             description: data.description,
             date: data.date,
         }
-        setprogress (old => [...old, data])
+        setprogress(old => [...old, data])
     }
     //model
     // const [open, setOpen] = React.useState(false);
@@ -68,21 +68,9 @@ function Task() {
 
     const [dataEdit, setDataEdit] = useState(false);
     const recodEdit = () => {
-      setDataEdit(!dataEdit);
+        setDataEdit(!dataEdit);
     };
-    
-    // edit
-    // const [opene, setOpene] = React.useState(false);
 
-    // const handleClickOpene = () => {
-    //     setOpene(true);
-    // };
-
-    // const handleClosee = () => {
-    //     setOpene(false);
-    // };
-
-    // move
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))
@@ -97,6 +85,17 @@ function Task() {
     const doneMoving = (item) => {
         setdone((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
+    }
+    const prority = (key) => {
+        if (key === 1) {
+            return <Radio checked={true} color="success" size="small" />
+        }
+        else if (key === 2) {
+            return <Radio checked={true} color="error" size="small" />
+        }
+        else if (key === 3) {
+            return <Radio checked={true} color="default" size="small" />
+        }
     }
 
     return (
@@ -119,7 +118,12 @@ function Task() {
                                     //        open={handleClickOpene} 
                                     //        progresMoving={progresMoving}/>
                                     <Card sx={{ maxWidth: 450, marginTop: "50px" }}>
-                                        <FiberManualRecordIcon style={{ marginLeft: "90%", paddingleft: "30px" }}></FiberManualRecordIcon>
+                                        <p style={{ fontSize: "17px" }}>
+                                            {item.title}
+                                            <span style={{ float: "right" }}>
+                                                {prority(item.priority)}
+                                            </span>
+                                        </p>
                                         <CardContent>
                                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                 <h2>  {item.name}</h2>
@@ -151,7 +155,12 @@ function Task() {
                                 return (
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px" }}>
-                                            <FiberManualRecordIcon style={{ marginLeft: "90%", paddingleft: "30px" }} />
+                                        <p style={{ fontSize: "17px" }}>
+                                            {item.title}
+                                            <span style={{ float: "right" }}>
+                                                {prority(item.priority)}
+                                            </span>
+                                        </p>
                                             <CardContent>
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                     <h2> {item.name}</h2>
@@ -174,7 +183,7 @@ function Task() {
                             })
                         }
                         <IconButton style={{ marginRight: "10%" }}>
-                            <AddCircleIcon fontSize="large"  onClick={modelpo}/>
+                            <AddCircleIcon fontSize="large" onClick={modelpo} />
                         </IconButton>
                     </Grid>
 
@@ -185,6 +194,12 @@ function Task() {
                                 return (
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px", maxHeight: 500 }}>
+                                        <p style={{ fontSize: "17px" }}>
+                                            {item.title}
+                                            <span style={{ float: "right" }}>
+                                                {prority(item.priority)}
+                                            </span>
+                                        </p>
                                             <CardContent>
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                     {item.name}
