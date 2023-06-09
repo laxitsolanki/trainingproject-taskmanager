@@ -56,20 +56,30 @@ function Task() {
         }
         setprogress(old => [...old, data])
     }
-    //model
-    // const [open, setOpen] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
-
     //array update 
     const [data, setdata] = React.useState(alldata)
     const [progress, setprogress] = React.useState(progressdata)
     const [done, setdone] = React.useState(donedata)
 
     const [dataEdit, setDataEdit] = useState(false);
-    const recodEdit = () => {
+
+    const [name,setname] = useState('')
+    const [description, setdescription] = useState('')
+    const [date, setdate] = useState('')
+    const [priority,setPriority] = useState('')
+
+    const recodEdit = (id) => {
         setDataEdit(!dataEdit);
+        let finddat = data.find(item=>item.id === id)
+        setname(finddat.name)
+        setdescription(finddat.description)
+        setdate(finddat.date)
+        setPriority(finddat.priority)
     };
+    
+    
+
+
 
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
@@ -77,15 +87,17 @@ function Task() {
 
         console.log(item)
     }
-    console.log(progress)
+
     const backlogmoving = (item) => {
         setdata((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
     }
+
     const doneMoving = (item) => {
         setdone((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
     }
+    
     const prority = (key) => {
         if (key === 1) {
             return <Radio checked={true} color="success" size="small" />
@@ -111,15 +123,10 @@ function Task() {
                         {
                             data.map((item) => {  // data add array map 
                                 return (
-                                    // <Cards name={item.name} 
-                                    //        description={item.description} 
-                                    //        date={item.date} 
-                                    //        button={item.button} 
-                                    //        open={handleClickOpene} 
-                                    //        progresMoving={progresMoving}/>
+
                                     <Card sx={{ maxWidth: 450, marginTop: "50px" }}>
                                         <p style={{ fontSize: "17px" }}>
-                                            {item.title}
+                                            {/* {item.title} */}
                                             <span style={{ float: "right" }}>
                                                 {prority(item.priority)}
                                             </span>
@@ -137,7 +144,7 @@ function Task() {
                                         </CardContent>
                                         <CardActions direction="row" spacing={2} style={{ marginLeft: "25%" }}>
                                             <Button variant="contained" color='primary' type='button' onClick={() => progresMoving(item)}>in progress</Button>
-                                            <Button variant="contained" color="error" type='button' onClick={recodEdit} >Edit</Button>
+                                            <Button variant="contained" color="error" type='button' onClick={()=>recodEdit(item.id)}>Edit</Button>
                                         </CardActions>
                                     </Card>
                                 )
@@ -155,12 +162,12 @@ function Task() {
                                 return (
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px" }}>
-                                        <p style={{ fontSize: "17px" }}>
-                                            {item.title}
-                                            <span style={{ float: "right" }}>
-                                                {prority(item.priority)}
-                                            </span>
-                                        </p>
+                                            <p style={{ fontSize: "17px" }}>
+                                                {item.title}
+                                                <span style={{ float: "right" }}>
+                                                    {prority(item.priority)}
+                                                </span>
+                                            </p>
                                             <CardContent>
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                     <h2> {item.name}</h2>
@@ -194,12 +201,12 @@ function Task() {
                                 return (
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px", maxHeight: 500 }}>
-                                        <p style={{ fontSize: "17px" }}>
-                                            {item.title}
-                                            <span style={{ float: "right" }}>
-                                                {prority(item.priority)}
-                                            </span>
-                                        </p>
+                                            <p style={{ fontSize: "17px" }}>
+                                                {item.title}
+                                                <span style={{ float: "right" }}>
+                                                    {prority(item.priority)}
+                                                </span>
+                                            </p>
                                             <CardContent>
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                     {item.name}
@@ -221,7 +228,7 @@ function Task() {
             </Box>
             {showModal && <Modal add={add} call={showModal} set={setShowModal} />}
             {inproModal && <Modelpro addp={addp} call={inproModal} set={setinproModal} />}
-            {dataEdit && <Edit data={data} cl={dataEdit} set={setDataEdit} />}
+            {dataEdit && <Edit data={data} call={dataEdit} set={setDataEdit} name={name} description={description} date={date} priority={priority}/>}
 
             {/* <Forme open={opene} close={handleClosee} /> */}
         </div>

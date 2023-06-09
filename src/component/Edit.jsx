@@ -6,7 +6,6 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { Stack } from '@mui/material';
 import { useState , useEffect } from 'react';
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -27,8 +26,8 @@ const style = {
 };
 
 export default function BasicModal(props) {
-    const [dataEdit, setdataEdit] = useState(props.cl);
-    const [name, setname] = useState()
+    const [dataEdit, setdataEdit] = useState(props.call);
+    const [name, setname] = useState('')
     const [description, setdescription] = useState()
     const [date, setdate] = useState()
     const [priority,setPriority] = useState()
@@ -39,23 +38,19 @@ export default function BasicModal(props) {
     
       const EditModel = (e) => {
         e.preventDefault();
-        const updata = {
-          name : name,
-        }
-        handleEdit(updata);
-    
+        
+        
+        
       };
-      console.log(name)
-    
-      const handleEdit = (updatedData) => {
-        console.log(updatedData);
-      };
+      // const handleEdit = (updatedData) => {
+      //   console.log(updatedData);
+      // };
       useEffect(() => { 
-        setname(props.data[0].name) 
-        setdescription(props.data[0].description)
-        setdate(props.data[0].date)
-        setPriority(props.data[0].priority)
-    },[])
+        setname(props.name)
+        setdescription(props.description)
+        setdate(props.date)
+        setPriority(props.priority)
+    },[props])
     const prority = (key) => {
         if(key === 1) {
           return <Radio checked={true} color="success" size="small" />
@@ -67,26 +62,14 @@ export default function BasicModal(props) {
           return <Radio checked={true} color="default" size="small" />
         }
       }
-
-// let progress  = { name:name , description:description , date :date};
-
-// const updatedata =  () => {
-//   console.log(progress)
-//   progress.push(progress)
-// }
-
     return (
         <div>
-             {dataEdit && (
             <Modal
-                // open={props.open}
+                open={props.call}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    {/* <TextField id="outlined-basic" label="enter name" variant="outlined" />
-                    <TextField id="outlined-basic" label="description" variant="outlined" />
-                    <TextField id="standard-basic" label="date" variant="standard" /> */}
                     <TextField
                         required
                         id="title"
@@ -100,8 +83,8 @@ export default function BasicModal(props) {
                         label="description"
                         multiline
                         rows={2}
-                        value={description}
                         variant="standard"
+                        value={description}
                         onChange={(e) => setdescription(e.target.value)}
 
                     />
@@ -110,15 +93,12 @@ export default function BasicModal(props) {
                         label="Select Date & Time"
                         type="datetime-local"
                         variant="standard"
-                        value={date}
                         onChange={(e) => setdate(e.target.value)}
-
+                        value={date}
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
-
-                    
                 <FormControl sx={{ m: 1, width: "40%" }}>
                   <InputLabel id="standard-required" variant="standard">
                     Select
@@ -127,6 +107,7 @@ export default function BasicModal(props) {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     variant="standard"
+                    value={priority}
                   >
                     <MenuItem value={1}>
                       <Radio checked={true} color="success" size="small" />
@@ -145,7 +126,6 @@ export default function BasicModal(props) {
                     </Stack>
                 </Box>
             </Modal>
-              )}
         </div>
     );
 }

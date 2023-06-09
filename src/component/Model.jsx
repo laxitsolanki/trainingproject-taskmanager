@@ -15,7 +15,6 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import { alldata } from './Data';
 
-// import AdjustIcon from '@mui/icons-material/Adjust';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -53,16 +52,6 @@ export default function BasicModal(props) {
   props.add(data)
 };
 
-// const SaveModel = (e) => {
-//     e.preventDefault();
-//     props.getdata(name)
-//     setname("");
-// };
-// const getdata =  () => {
-//   Data.push(data)
-// }
-
-
 return (
   <div>
     <Modal
@@ -73,9 +62,6 @@ return (
     >
       <Box sx={style}>
         <h1>backmodel</h1>
-        {/* <TextField id="outlined-basic" label="enter name" variant="outlined" />
-                    <TextField id="outlined-basic" label="description" variant="outlined" />
-                    <TextField id="standard-basic" label="date" variant="standard" /> */}
         <TextField
           required
           id="title"
