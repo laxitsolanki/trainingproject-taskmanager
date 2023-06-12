@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { Stack } from '@mui/material';
@@ -13,10 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
-// import { alldata } from './Data';
-import { progressdata } from './Data';
 
-// import AdjustIcon from '@mui/icons-material/Adjust';
+import { progressdata } from './Data';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -34,10 +31,6 @@ const [progress, setprogress] = useState(props.call);
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
   const [date, setdate] = useState()
-  // const [button, setButton] = useState('');
-//   const [Data, setData] = useState(alldata)
-// const [progress, setprogress] = useState(progressdata)
-
   const [priority, setpriority] = useState()
   
   const closemodel = () => {
@@ -45,6 +38,7 @@ const [progress, setprogress] = useState(props.call);
   };
   const savemodel = (e) => {
     e.preventDefault();
+    
   //object creacte
   let data = {
     name: name,
@@ -55,16 +49,6 @@ const [progress, setprogress] = useState(props.call);
   setname('');
   props.addp(data)
 };
-
-// const SaveModel = (e) => {
-//     e.preventDefault();
-//     props.getdata(name)
-//     setname("");
-// };
-// const getdata =  () => {
-//   Data.push(data)
-// }
-
 
 return (
   <div>

@@ -1,13 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { Stack } from '@mui/material';
 import { useState } from 'react';
-
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -32,7 +29,7 @@ export default function BasicModal(props) {
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
   const [date, setdate] = useState()
-  // const [button, setButton] = useState('');
+
   const [Data, setData] = useState(alldata)
   const [priority, setpriority] = useState()
   
@@ -41,7 +38,10 @@ export default function BasicModal(props) {
   };
   const savemodel = (e) => {
     e.preventDefault();
+    
   //object creacte
+    var id = Math.floor(Math.random() * 100 + 1).toString(); 
+
   let data = {
     name: name,
     description: description,
