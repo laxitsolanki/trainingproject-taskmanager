@@ -37,14 +37,22 @@ export default function BasicModal(props) {
   const [date, setdate] = useState()
   const [priority, setPriority] = useState()
 
+
+  const currentDate = new Date();
+  const oldDate = new Date(date);
+  const timeDiff = oldDate - currentDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const hoursDiff = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+  const minutesDiff = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
+  const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
+  const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
+
+  // console.log(props.data.datetime)
+  console.log(props.dataid.currentDate)
+
   const closeModal = () => {
     props.set(false);
   };
-
-
-  const update = () => {
-    props.recodEdit()
-  }
 
 
   const edit = (e) => {
@@ -53,6 +61,8 @@ export default function BasicModal(props) {
     props.dataid.name = name
     props.dataid.description = description
     props.dataid.date = date
+    props.dataid.sdatetime = daysDiff 
+    props.dataid.hoursDiff = atime
     props.dataid.priority = priority
     props.set(false)
 

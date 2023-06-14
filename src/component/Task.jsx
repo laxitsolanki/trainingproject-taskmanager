@@ -13,14 +13,13 @@ import { useState } from 'react';
 import Modal from './Model';
 import Modelpro from './Modelpro';
 import Edit from './Edit';
-
 // object import
 
 import { alldata } from './Data'
 import { progressdata } from './Data';
 import { donedata } from './Data';
 
-function Task() {
+function Task(props) {
 
     // open click  model
     const [showModal, setShowModal] = useState(false);
@@ -33,17 +32,28 @@ function Task() {
         setinproModal(!inproModal);
     };
 
-    // create fun object 
+    // create fun object to data add 
     const add = (data) => {
         console.log(data)
-
+        let record = {
+            name: data.name,
+            description: data.description,
+            date : data.date,
+            priority: data.priority,
+          }
         setdata(old => [...old, data])
     }
 
-    const addp = (data) => {
-        console.log(data)
-
-        setprogress(old => [...old, data])
+    const addp = (progress) => {
+        console.log(progress)
+        let record = {
+            name: progress.name,
+            description: progress.description,
+            date : progress.daysDiff,
+            hoursDiff : progress.atime,
+            priority: progress.priority
+          }
+        setprogress(old => [...old, progress])
     }
 
     //array update 
@@ -53,20 +63,18 @@ function Task() {
 
 
     const [name, setname] = useState('')
-    const [description, setdescription] = useState('')
+    const [description, setdescription] = useState('')      
     const [date, setdate] = useState('')
     const [priority, setPriority] = useState('')
 
+    // data edit backing
     const [dataEdit, setDataEdit] = useState(false);
-    const [dataid,setDataid] = useState()
+    const [dataid, setDataid] = useState()
 
     const recodEdit = (id) => {
         setDataEdit(!dataEdit);
         setDataid(id);
-
     };
-
-
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))
@@ -97,10 +105,10 @@ function Task() {
 
     return (
         <div className=''>
-            <header style={{ height: "50px", color: "lightblue" }}>
+            <header style={{ height: "50px", color: "lightblue", marginLeft: "20px" }}>
                 <h1>Task Manager</h1>
             </header>
-            <Box sx={{ flexGrow: 1, flexDirection: 'row' }}>
+            <Box sx={{ flexGrow: 1, flexDirection: 'row' , }}>
                 <Grid container spacing={8}>
                     <Grid item xs={4}>
 
@@ -123,7 +131,8 @@ function Task() {
                                                 <h3>{item.description}</h3>
                                             </Typography>
                                             <Typography variant="body2" paddingLeft={30}>
-                                                <h4>  {item.date}</h4>
+                                                {/* <h4>  {item.date}</h4> */}
+                                               <h4 style={{ textAlign: "right" }}>{item.date}  Day,<br/>{item.atime} Left</h4>
                                             </Typography>
                                         </CardContent>
                                         <CardActions direction="row" spacing={2} style={{ marginLeft: "25%" }}>
@@ -166,7 +175,7 @@ function Task() {
                                             <CardActions direction="row" spacing={2} style={{ marginLeft: "15%" }}>
                                                 <Button variant="contained" color="error" onClick={() => backlogmoving(item)}>Backlog</Button>
                                                 <Button variant="contained" color="error" onClick={() => doneMoving(item)}>Done</Button>
-                                                <Button variant="contained" color="error" >Edit</Button>
+                                                <Button variant="contained" color="error" onClick={() => recodEdit(item)}>Edit</Button>
                                             </CardActions>
                                         </Card>
                                     </>
@@ -213,7 +222,6 @@ function Task() {
             {showModal && <Modal add={add} call={showModal} set={setShowModal} />}
             {inproModal && <Modelpro addp={addp} call={inproModal} set={setinproModal} />}
             {dataEdit && <Edit data={data} call={dataEdit} dataid={dataid} set={setDataEdit} name={name} description={description} date={date} priority={priority} recodEdit={recodEdit} />}
-
         </div>
     )
 }

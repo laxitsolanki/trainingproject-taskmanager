@@ -32,6 +32,8 @@ export default function BasicModal(props) {
 
   const [Data, setData] = useState(alldata)
   const [priority, setpriority] = useState()
+
+  
   
   const closemodel = () => {
     props.set(false);
@@ -41,6 +43,7 @@ export default function BasicModal(props) {
     
   //object creacte
     var id = Math.floor(Math.random() * 100 + 1).toString(); 
+    // console.log(id);
 
   let data = {
     name: name,
@@ -65,7 +68,7 @@ return (
         <TextField
           required
           id="title"
-          label="Title"
+          label="name"
           variant="standard"
           value={name}
           onChange={(e) => setname(e.target.value)}
