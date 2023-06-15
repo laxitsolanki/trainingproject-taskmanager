@@ -39,6 +39,8 @@ function Task(props) {
             name: data.name,
             description: data.description,
             date : data.date,
+            daysDiff: data.daysDiff,
+            atime: data.atime,
             priority: data.priority,
           }
         setdata(old => [...old, data])
@@ -50,8 +52,9 @@ function Task(props) {
             name: progress.name,
             description: progress.description,
             date : progress.daysDiff,
-            hoursDiff : progress.atime,
-            priority: progress.priority
+            daysDiff: progress.daysDiff,
+            atime: progress.atime,          
+             priority: progress.priority
           }
         setprogress(old => [...old, progress])
     }
@@ -75,6 +78,7 @@ function Task(props) {
         setDataEdit(!dataEdit);
         setDataid(id);
     };
+
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))

@@ -141,6 +141,8 @@ export default function BasicModal(props) {
               id="demo-simple-select"
               variant="standard"
               value={priority}
+              onChange={(e)=>setPriority(e.target.value)}
+
             >
               <MenuItem value={1}>
                 <Radio checked={true} color="success" size="small" />

@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
+import { useFormik } from "formik";
 import { alldata } from './Data';
 
 const style = {
@@ -29,31 +30,79 @@ export default function BasicModal(props) {
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
   const [date, setdate] = useState()
+  const [error, setError] = useState(false);
+
 
   const [Data, setData] = useState(alldata)
   const [priority, setpriority] = useState()
 
-  
+  const currentDate = new Date();
+  const oldDate = new Date(date);
+  const timeDiff = oldDate - currentDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const hoursDiff = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+  const minutesDiff = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
+  const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
+  const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
   
   const closemodel = () => {
     props.set(false);
   };
   const savemodel = (e) => {
     e.preventDefault();
-    
+    // props.set(false);  
+
   //object creacte
     var id = Math.floor(Math.random() * 100 + 1).toString(); 
     // console.log(id);
-
+    if (!name || !description || !date || !priority) {
+      setError(true); 
+    } 
+    else {
   let data = {
+    id:id,
     name: name,
     description: description,
     date: date,
+    daysDiff: daysDiff,
+    atime: atime,
     priority: priority
   }
   setname('');
+  setdescripton('');
+  setdate('');
+  setpriority('');
+  setError(false);
   props.add(data)
+  props.set(false); 
+    };
 };
+const validate = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Required";
+    errors.description = "Required";
+    errors.date = "Required";
+    errors.priority = "Required";
+  }
+  return errors;
+};
+
+// Formik configuration
+const formik = useFormik({
+  initialValues: {
+    name: "",
+    description: "",
+    date: "",
+    daysDiff: "",
+   priority: "",
+  },
+  validate,
+  onClick: (values) => {
+    // Handle form submission
+    console.log(values);
+  }
+});
 
 return (
   <div>
@@ -72,6 +121,8 @@ return (
           variant="standard"
           value={name}
           onChange={(e) => setname(e.target.value)}
+          error={error && !name}
+          helperText={error && !name ? "entername Error" : ""}
         />
         <TextField
           id="standard-multiline-static"
@@ -80,6 +131,8 @@ return (
           rows={2}
           variant="standard"
           onChange={(e) => setdescripton(e.target.value)}
+          error={error && !description}
+          helperText={error && !description ? "enterdescription Error" : ""}
         />
         <TextField
           id="datetime-local"
@@ -89,7 +142,10 @@ return (
           InputLabelProps={{
             shrink: true,
           }}
+          value={date}
           onChange={(e) => setdate(e.target.value)}
+          error={error && !date}
+          helperText={error && !date ? "enterdate Error" : ""}
         />
 
 
@@ -101,7 +157,9 @@ return (
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             variant="standard"
-            value={priority} onChange={(e)=>setpriority(e.target.value)}          >
+            value={priority} onChange={(e)=>setpriority(e.target.value)}   
+            error={error && !priority}
+          helperText={error && !priority ? "enterprioity Error" : ""}       >
             <MenuItem value={1}>
               <Radio checked={true} color="success" size="small" />
             </MenuItem>

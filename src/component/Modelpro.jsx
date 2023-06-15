@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { Stack } from '@mui/material';
 import { useState } from 'react';
-
+import { useFormik } from "formik";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,7 +31,20 @@ const [progress, setprogress] = useState(props.call);
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
   const [date, setdate] = useState()
+  const [error, setError] = useState()
+
+
+  const [Data, setData] = useState(progressdata)
   const [priority, setpriority] = useState()
+
+  const currentDate = new Date();
+  const oldDate = new Date(date);
+  const timeDiff = oldDate - currentDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const hoursDiff = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+  const minutesDiff = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
+  const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
+  const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
   
   const closemodel = () => {
     props.set(false);
@@ -39,16 +52,57 @@ const [progress, setprogress] = useState(props.call);
   const savemodel = (e) => {
     e.preventDefault();
     
+    var id = Math.floor(Math.random() * 100 + 1).toString(); 
+    // console.log(id);
+    if (!name || !description || !date || !priority) {
+      setError(true); 
+    } 
+    else {
   //object creacte
   let data = {
+    id:id,
     name: name,
     description: description,
     date: date,
+    daysDiff: daysDiff,
+    atime: atime,
     priority: priority
   }
   setname('');
-  props.addp(data)
+  setdescripton('');
+  setdate('');
+  setpriority('');
+  setError(false);
+  props.addp(data);
+  props.set(false); 
 };
+};
+const validate = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Required";
+    errors.description = "Required";
+    errors.date = "Required";
+    errors.priority = "Required";
+  }
+  return errors;
+};
+
+// Formik configuration
+const formik = useFormik({
+  initialValues: {
+    name: "",
+    description: "",
+    date: "",
+    daysDiff: "",
+   priority: "",
+  },
+  validate,
+  onClick: (values) => {
+    // Handle form submission
+    console.log(values);
+  }
+});
 
 return (
   <div>
@@ -68,6 +122,8 @@ return (
           variant="standard"
           value={name}
           onChange={(e) => setname(e.target.value)}
+          error={error && !name}
+          helperText={error && !name ? "entername Error" : ""}
         />
         <TextField
           id="standard-multiline-static"
@@ -76,7 +132,9 @@ return (
           rows={2}
           variant="standard"
           onChange={(e) => setdescripton(e.target.value)}
-        />
+          error={error && !description}
+          helperText={error && !description ? "enterdescription Error" : ""}
+        /> 
         <TextField
           id="datetime-local"
           label="Select Date & Time"
@@ -86,9 +144,9 @@ return (
             shrink: true,
           }}
           onChange={(e) => setdate(e.target.value)}
+          error={error && !date}
+          helperText={error && !date ? "enterdate Error" : ""}
         />
-
-
         <FormControl sx={{ m: 1, width: "40%" }}>
           <InputLabel id="standard-required" variant="standard">
             Select
@@ -97,7 +155,9 @@ return (
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             variant="standard"
-            value={priority} onChange={(e)=>setpriority(e.target.value)}          >
+            value={priority} onChange={(e)=>setpriority(e.target.value)} 
+            error={error && !priority}
+          helperText={error && !priority ? "enterprioity Error" : ""}           >
             <MenuItem value={1}>
               <Radio checked={true} color="success" size="small" />
             </MenuItem>
