@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -31,7 +32,7 @@ function Task(props) {
     const modelpo = () => {
         setinproModal(!inproModal);
     };
-
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
     // create fun object to data add 
     const add = (data) => {
         console.log(data)
@@ -79,16 +80,101 @@ function Task(props) {
         setDataid(id);
     };
 
+    
+  // ------ Backlog Curent Reverse Time 
+  const updateReverseTime = () => {
+    const currentDate = new Date();
+    setdata((oldData) => {
+      return oldData.map((item) => {
+        const futureDate = new Date(item.date);
+        const timeDiff = futureDate - currentDate;
+  
+        if (timeDiff >= 0) {
+          const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+          const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+          const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+          const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+  
+          const backlogreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+          item.backlogreverseTime = backlogreverseTime;
+          } 
+        else {
+            item.backlogreverseTime = "Expired";
+          }
+        return item;
+      });
+    });
+  };
+  useEffect(() => {
+    const timer = setInterval(updateReverseTime, 1000);
+    return () => clearInterval(timer);
+  }, [currentDateTime]);
+
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))
         console.log(item)
     }
 
+    // ------ InProgress Curent Reverse Time 
+  const inProgressupdateReverseTime = () => {
+    const currentDate = new Date();
+    setprogress((oldData) => {
+      return oldData.map((item) => {
+        const futureDate = new Date(item.date);
+        const timeDiff = futureDate - currentDate;
+        if (timeDiff >= 0) {
+        const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+        const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+        const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+        const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+  
+        const inProgressreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+        item.inProgressreverseTime = inProgressreverseTime;
+        }
+        else {
+          item.inProgressreverseTime = "Expired";
+        }
+        return item;
+      });
+    });
+  };
+  useEffect(() => {
+    const timer = setInterval(inProgressupdateReverseTime, 1000);
+    return () => clearInterval(timer);
+  }, [currentDateTime]);
+
     const backlogmoving = (item) => {
         setdata((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
     }
+ // ------ InProgress Curent Reverse Time 
+ const doneupdateReverseTime = () => {
+    const currentDate = new Date();
+    setdone((oldData) => {
+      return oldData.map((item) => {
+        const futureDate = new Date(item.date);
+        const timeDiff = futureDate - currentDate;
+        if (timeDiff >= 0) {
+        const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+        const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+        const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+        const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+  
+        const donereverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+        item.donereverseTime = donereverseTime;
+        }
+        else {
+          item.donereverseTime = "00:00:00" ;
+        }
+        return item;
+      });
+    });
+  };
+  useEffect(() => {
+    const timer = setInterval(doneupdateReverseTime, 1000);
+    return () => clearInterval(timer);
+  }, [currentDateTime]);
 
     const doneMoving = (item) => {
         setdone((prevRows) => [...prevRows, item]);
@@ -136,7 +222,9 @@ function Task(props) {
                                             </Typography>
                                             <Typography variant="body2" paddingLeft={30}>
                                                 {/* <h4>  {item.date}</h4> */}
-                                               <h4 style={{ textAlign: "right" }}>{item.date}  Day,<br/>{item.atime} Left</h4>
+                                               {/* <h4 style={{ textAlign: "right" }}>{item.date}  Day,<br/>{item.atime} Left</h4> */}
+                                               <h4 style={{ textAlign: "right" }}> {item.backlogreverseTime} </h4>
+
                                             </Typography>
                                         </CardContent>
                                         <CardActions direction="row" spacing={2} style={{ marginLeft: "25%" }}>
@@ -160,7 +248,7 @@ function Task(props) {
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px" }}>
                                             <p style={{ fontSize: "17px" }}>
-                                                {item.title}
+                                                {/* {item.name} */}
                                                 <span style={{ float: "right" }}>
                                                     {prority(item.priority)}
                                                 </span>
@@ -173,7 +261,9 @@ function Task(props) {
                                                     <h3> {item.description}</h3>
                                                 </Typography>
                                                 <Typography variant="body2" paddingLeft={30} >
-                                                    <h3>{item.date}</h3>
+                                                    {/* <h3>{item.date}</h3> */}
+                                                    <h4 style={{ textAlign: "right" }}> {item.inProgressreverseTime} </h4>
+
                                                 </Typography>
                                             </CardContent>
                                             <CardActions direction="row" spacing={2} style={{ marginLeft: "15%" }}>
@@ -199,7 +289,7 @@ function Task(props) {
                                     <>
                                         <Card sx={{ maxWidth: 450, marginTop: "50px", maxHeight: 500 }}>
                                             <p style={{ fontSize: "17px" }}>
-                                                {item.title}
+                                                {/* {item.name} */}
                                                 <span style={{ float: "right" }}>
                                                     {prority(item.priority)}
                                                 </span>
@@ -212,7 +302,9 @@ function Task(props) {
                                                     {item.description}
                                                 </Typography>
                                                 <Typography variant="body2" paddingLeft={35}>
-                                                    <b>{item.date}</b>
+                                                    {/* <b>{item.date}</b> */}
+                                                    <b>Totel Spend Time : {item.donereverseTime} </b>
+
                                                 </Typography>
                                             </CardContent>
                                         </Card>

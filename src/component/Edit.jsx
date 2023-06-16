@@ -36,6 +36,8 @@ export default function BasicModal(props) {
   const [description, setdescription] = useState()
   const [date, setdate] = useState()
   const [priority, setPriority] = useState()
+  const [error, setError] = useState(false);
+
 
 
   const currentDate = new Date();
@@ -58,6 +60,10 @@ export default function BasicModal(props) {
   const edit = (e) => {
     // let data = {name,description,date,priority}
     e.preventDefault();
+    if (!name || !description || !date || !priority) {
+      setError(true);
+    } 
+    else {
     props.dataid.name = name
     props.dataid.description = description
     props.dataid.date = date
@@ -65,7 +71,7 @@ export default function BasicModal(props) {
     props.dataid.hoursDiff = atime
     props.dataid.priority = priority
     props.set(false)
-
+  };
   }
   useEffect(() => {
     setname(props.dataid.name)
@@ -84,17 +90,17 @@ export default function BasicModal(props) {
 }, [])
 
 
-  const prority = (key) => {
-    if (key === 1) {
-      return <Radio checked={true} color="success" size="small" />
-    }
-    else if (key === 2) {
-      return <Radio checked={true} color="error" size="small" />
-    }
-    else if (key === 3) {
-      return <Radio checked={true} color="default" size="small" />
-    }
-  }
+  // const prority = (key) => {
+  //   if (key === 1) {
+  //     return <Radio checked={true} color="success" size="small" />
+  //   }
+  //   else if (key === 2) {
+  //     return <Radio checked={true} color="error" size="small" />
+  //   }
+  //   else if (key === 3) {
+  //     return <Radio checked={true} color="default" size="small" />
+  //   }
+  // }
   return (
     <div>
       <Modal
@@ -110,6 +116,8 @@ export default function BasicModal(props) {
             variant="standard"
             value={name}
             onChange={(e) => setname(e.target.value)}
+            error={error && !name}
+            helperText={error && !name ? "entername Error" : ""}
           />
           <TextField
             id="standard-multiline-static"
@@ -119,7 +127,8 @@ export default function BasicModal(props) {
             variant="standard"
             value={description}
             onChange={(e) => setdescription(e.target.value)}
-
+            error={error && !description}
+            helperText={error && !description ? "enterdescription Error" : ""}
           />
           <TextField
             id="datetime-local"
@@ -131,6 +140,8 @@ export default function BasicModal(props) {
             InputLabelProps={{
               shrink: true,
             }}
+            error={error && !date}
+            helperText={error && !date ? "enterdate Error" : ""}
           />
           <FormControl sx={{ m: 1, width: "40%" }}>
             <InputLabel id="standard-required" variant="standard">
@@ -142,7 +153,8 @@ export default function BasicModal(props) {
               variant="standard"
               value={priority}
               onChange={(e)=>setPriority(e.target.value)}
-
+              error={error && !priority}
+              helperText={error && !priority ? "Priority Error" : ""}
             >
               <MenuItem value={1}>
                 <Radio checked={true} color="success" size="small" />

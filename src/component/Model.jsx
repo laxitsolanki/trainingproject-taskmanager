@@ -106,6 +106,7 @@ const formik = useFormik({
 
 return (
   <div>
+   {showmodel && (
     <Modal
       open={props.call}
       onClose={props.close}
@@ -159,7 +160,7 @@ return (
             variant="standard"
             value={priority} onChange={(e)=>setpriority(e.target.value)}   
             error={error && !priority}
-          helperText={error && !priority ? "enterprioity Error" : ""}       >
+            helperText={error && !priority ? "enterprioity Error" : ""}       >
             <MenuItem value={1}>
               <Radio checked={true} color="success" size="small" />
             </MenuItem>
@@ -177,6 +178,7 @@ return (
         </Stack>
       </Box>
     </Modal>
+    )}
   </div>
 );
 }

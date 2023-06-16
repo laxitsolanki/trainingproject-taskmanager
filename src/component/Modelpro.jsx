@@ -88,24 +88,9 @@ const validate = (values) => {
   return errors;
 };
 
-// Formik configuration
-const formik = useFormik({
-  initialValues: {
-    name: "",
-    description: "",
-    date: "",
-    daysDiff: "",
-   priority: "",
-  },
-  validate,
-  onClick: (values) => {
-    // Handle form submission
-    console.log(values);
-  }
-});
-
 return (
   <div>
+    {progress && (
     <Modal
       open={props.call}
       onClose={props.close}
@@ -175,6 +160,7 @@ return (
         </Stack>
       </Box>
     </Modal>
+    )}
   </div>
 );
 }
