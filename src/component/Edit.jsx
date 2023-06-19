@@ -25,6 +25,7 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  
 };
 
 export default function BasicModal(props) {
@@ -49,7 +50,7 @@ export default function BasicModal(props) {
   const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
   const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
 
-  // console.log(props.data.datetime)
+  // console.log(props.data.date)
   console.log(props.dataid.currentDate)
 
   const closeModal = () => {

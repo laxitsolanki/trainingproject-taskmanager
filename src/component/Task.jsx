@@ -36,27 +36,27 @@ function Task(props) {
     // create fun object to data add 
     const add = (data) => {
         console.log(data)
-        let record = {
-            name: data.name,
-            description: data.description,
-            date : data.date,
-            daysDiff: data.daysDiff,
-            atime: data.atime,
-            priority: data.priority,
-          }
+        // let record = {
+        //     name: data.name,
+        //     description: data.description,
+        //     date : data.date,
+        //     daysDiff: data.daysDiff,
+        //     atime: data.atime,
+        //     priority: data.priority,
+        //   }
         setdata(old => [...old, data])
     }
 
     const addp = (progress) => {
         console.log(progress)
-        let record = {
-            name: progress.name,
-            description: progress.description,
-            date : progress.daysDiff,
-            daysDiff: progress.daysDiff,
-            atime: progress.atime,          
-             priority: progress.priority
-          }
+        // let record = {
+        //     name: progress.name,
+        //     description: progress.description,
+        //     date : progress.daysDiff,
+        //     daysDiff: progress.daysDiff,
+        //     atime: progress.atime,          
+        //      priority: progress.priority
+        //   }
         setprogress(old => [...old, progress])
     }
 
@@ -67,7 +67,7 @@ function Task(props) {
 
 
     const [name, setname] = useState('')
-    const [description, setdescription] = useState('')      
+    const [description, setdescription] = useState('')
     const [date, setdate] = useState('')
     const [priority, setPriority] = useState('')
 
@@ -80,35 +80,35 @@ function Task(props) {
         setDataid(id);
     };
 
-    
-  // ------ Backlog Curent Reverse Time 
-  const updateReverseTime = () => {
-    const currentDate = new Date();
-    setdata((oldData) => {
-      return oldData.map((item) => {
-        const futureDate = new Date(item.date);
-        const timeDiff = futureDate - currentDate;
-  
-        if (timeDiff >= 0) {
-          const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-          const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
-          const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-          const secondsDiff = Math.floor((timeDiff / 1000) % 60);
-  
-          const backlogreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
-          item.backlogreverseTime = backlogreverseTime;
-          } 
-        else {
-            item.backlogreverseTime = "Expired";
-          }
-        return item;
-      });
-    });
-  };
-  useEffect(() => {
-    const timer = setInterval(updateReverseTime, 1000);
-    return () => clearInterval(timer);
-  }, [currentDateTime]);
+
+    // ------ Backlog Curent Reverse Time 
+    const updateReverseTime = () => {
+        const currentDate = new Date();
+        setdata((oldData) => {
+            return oldData.map((item) => {
+                const futureDate = new Date(item.date);
+                const timeDiff = futureDate - currentDate;
+
+                if (timeDiff >= 0) {
+                    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                    const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+                    const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+                    const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+
+                    const backlogreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+                    item.backlogreverseTime = backlogreverseTime;
+                }
+                else {
+                    item.backlogreverseTime = "Expired";
+                }
+                return item;
+            });
+        });
+    };
+    useEffect(() => {
+        const timer = setInterval(updateReverseTime, 1000);
+        return () => clearInterval(timer);
+    }, [currentDateTime]);
 
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
@@ -117,64 +117,64 @@ function Task(props) {
     }
 
     // ------ InProgress Curent Reverse Time 
-  const inProgressupdateReverseTime = () => {
-    const currentDate = new Date();
-    setprogress((oldData) => {
-      return oldData.map((item) => {
-        const futureDate = new Date(item.date);
-        const timeDiff = futureDate - currentDate;
-        if (timeDiff >= 0) {
-        const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-        const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
-        const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-        const secondsDiff = Math.floor((timeDiff / 1000) % 60);
-  
-        const inProgressreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
-        item.inProgressreverseTime = inProgressreverseTime;
-        }
-        else {
-          item.inProgressreverseTime = "Expired";
-        }
-        return item;
-      });
-    });
-  };
-  useEffect(() => {
-    const timer = setInterval(inProgressupdateReverseTime, 1000);
-    return () => clearInterval(timer);
-  }, [currentDateTime]);
+    const inProgressupdateReverseTime = () => {
+        const currentDate = new Date();
+        setprogress((oldData) => {
+            return oldData.map((item) => {
+                const futureDate = new Date(item.date);
+                const timeDiff = futureDate - currentDate;
+                if (timeDiff >= 0) {
+                    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                    const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+                    const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+                    const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+
+                    const inProgressreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+                    item.inProgressreverseTime = inProgressreverseTime;
+                }
+                else {
+                    item.inProgressreverseTime = "Expired";
+                }
+                return item;
+            });
+        });
+    };
+    useEffect(() => {
+        const timer = setInterval(inProgressupdateReverseTime, 1000);
+        return () => clearInterval(timer);
+    }, [currentDateTime]);
 
     const backlogmoving = (item) => {
         setdata((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
     }
- // ------ InProgress Curent Reverse Time 
- const doneupdateReverseTime = () => {
-    const currentDate = new Date();
-    setdone((oldData) => {
-      return oldData.map((item) => {
-        const futureDate = new Date(item.date);
-        const timeDiff = futureDate - currentDate;
-        if (timeDiff >= 0) {
-        const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-        const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
-        const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-        const secondsDiff = Math.floor((timeDiff / 1000) % 60);
-  
-        const donereverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
-        item.donereverseTime = donereverseTime;
-        }
-        else {
-          item.donereverseTime = "00:00:00" ;
-        }
-        return item;
-      });
-    });
-  };
-  useEffect(() => {
-    const timer = setInterval(doneupdateReverseTime, 1000);
-    return () => clearInterval(timer);
-  }, [currentDateTime]);
+    // ------ InProgress Curent Reverse Time 
+    const doneupdateReverseTime = () => {
+        const currentDate = new Date();
+        setdone((oldData) => {
+            return oldData.map((item) => {
+                const futureDate = new Date(item.date);
+                const timeDiff = futureDate - currentDate;
+                if (timeDiff >= 0) {
+                    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                    const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
+                    const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+                    const secondsDiff = Math.floor((timeDiff / 1000) % 60);
+
+                    const donereverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+                    item.donereverseTime = donereverseTime;
+                }
+                else {
+                    item.donereverseTime = "00:00:00";
+                }
+                return item;
+            });
+        });
+    };
+    useEffect(() => {
+        const timer = setInterval(doneupdateReverseTime, 1000);
+        return () => clearInterval(timer);
+    }, [currentDateTime]);
 
     const doneMoving = (item) => {
         setdone((prevRows) => [...prevRows, item]);
@@ -198,7 +198,7 @@ function Task(props) {
             <header style={{ height: "50px", color: "lightblue", marginLeft: "20px" }}>
                 <h1>Task Manager</h1>
             </header>
-            <Box sx={{ flexGrow: 1, flexDirection: 'row' , }}>
+            <Box sx={{ flexGrow: 1, flexDirection: 'row', }}>
                 <Grid container spacing={8}>
                     <Grid item xs={4}>
 
@@ -222,8 +222,8 @@ function Task(props) {
                                             </Typography>
                                             <Typography variant="body2" paddingLeft={30}>
                                                 {/* <h4>  {item.date}</h4> */}
-                                               {/* <h4 style={{ textAlign: "right" }}>{item.date}  Day,<br/>{item.atime} Left</h4> */}
-                                               <h4 style={{ textAlign: "right" }}> {item.backlogreverseTime} </h4>
+                                                {/* <h4 style={{ textAlign: "right" }}>{item.date}  Day,<br/>{item.atime} Left</h4> */}
+                                                <h4 style={{ textAlign: "right" }}> {item.backlogreverseTime} </h4>
 
                                             </Typography>
                                         </CardContent>
