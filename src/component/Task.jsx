@@ -33,6 +33,8 @@ function Task(props) {
         setinproModal(!inproModal);
     };
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    const [prosavetime,setProSavetime] = useState();
+
     // create fun object to data add 
     const add = (data) => {
         console.log(data)
@@ -113,6 +115,7 @@ function Task(props) {
     const progresMoving = (item) => {
         setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))
+        setProSavetime(Date())
         console.log(item)
     }
 
@@ -147,25 +150,44 @@ function Task(props) {
     const backlogmoving = (item) => {
         setdata((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
+        setProSavetime(Date())
+
     }
     // ------ InProgress Curent Reverse Time 
     const doneupdateReverseTime = () => {
         const currentDate = new Date();
         setdone((oldData) => {
             return oldData.map((item) => {
-                const futureDate = new Date(item.date);
-                const timeDiff = futureDate - currentDate;
-                if (timeDiff >= 0) {
-                    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-                    const hoursDiff = Math.floor((timeDiff / (1000 * 3600)) % 24);
-                    const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-                    const secondsDiff = Math.floor((timeDiff / 1000) % 60);
 
-                    const donereverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
-                    item.donereverseTime = donereverseTime;
+                // const futureDate = new Date(item.date);
+                // const timeDiff = futureDate - currentDate;
+                const time1 = item.atime || "";
+                const time2 = item.inProgressreverseTime || "";
+                // console.log(time1,"aaa")
+                // console.log(time2,"bbb")
+                const [days1, time1Str] = time1 ? time1.split(", ") : ["", ""];
+                const [days2, time2Str] = time2 ? time2.split(", ") : ["", ""];
+                
+                const [hours1, minutes1, seconds1] = time1Str ? time1Str.split(":").map(Number) : [0, 0, 0];
+                const [hours2, minutes2, seconds2] = time2Str ? time2Str.split(":").map(Number) : [0, 0, 0];
+                
+                const timeInSeconds1 = parseInt(days1) * 24 * 60 * 60 + hours1 * 60 * 60 + minutes1 * 60 + seconds1;
+                const timeInSeconds2 = parseInt(days2) * 24 * 60 * 60 + hours2 * 60 * 60 + minutes2 * 60 + seconds2;
+                // console.log(timeInSeconds1,"a")
+                // console.log(timeInSeconds2,"b")
+        
+                const timeDifferenceInSeconds = timeInSeconds1 - timeInSeconds2;
+                if (timeDifferenceInSeconds >= 0) {
+                    const daysDiff = Math.floor(timeDifferenceInSeconds / (1000 * 3600 * 24));
+                    const hoursDiff = Math.floor((timeDifferenceInSeconds / (1000 * 3600)) % 24);
+                    const minutesDiff = Math.floor((timeDifferenceInSeconds / (1000 * 60)) % 60);
+                    const secondsDiff = Math.floor((timeDifferenceInSeconds / 1000) % 60);
+
+                    const timeDifference = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff}`
+                    item.timeDifference = timeDifference;
                 }
                 else {
-                    item.donereverseTime = "00:00:00";
+                    item.timeDifference = "Expired";
                 }
                 return item;
             });
@@ -179,6 +201,8 @@ function Task(props) {
     const doneMoving = (item) => {
         setdone((prevRows) => [...prevRows, item]);
         setprogress((preData) => preData.filter((date) => date.name !== item.name))
+        setProSavetime(Date())
+
     }
 
     const prority = (key) => {
@@ -316,8 +340,8 @@ function Task(props) {
                 </Grid>
             </Box>
             {showModal && <Modal add={add} call={showModal} set={setShowModal} />}
-            {inproModal && <Modelpro addp={addp} call={inproModal} set={setinproModal} />}
-            {dataEdit && <Edit data={data} call={dataEdit} dataid={dataid} set={setDataEdit} name={name} description={description} date={date} priority={priority} recodEdit={recodEdit} />}
+            {inproModal && <Modelpro addp={addp} call={inproModal} set={setinproModal}  />}
+            {dataEdit && <Edit data={data} call={dataEdit} dataid={dataid} set={setDataEdit} name={name} description={description} date={date} priority={priority} recodEdit={recodEdit}  />}
         </div>
     )
 }
