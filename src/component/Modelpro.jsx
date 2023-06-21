@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
-
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { progressdata } from './Data';
 const style = {
   position: 'absolute',
@@ -30,7 +30,7 @@ export default function BasicModal(props) {
 const [progress, setprogress] = useState(props.call);
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
-  const [date, setdate] = useState()
+  const [date, setdate] = useState(new Date)
   const [error, setError] = useState()
 
 
@@ -44,7 +44,7 @@ const [progress, setprogress] = useState(props.call);
   const hoursDiff = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
   const minutesDiff = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
   const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
-  const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
+  const atime = daysDiff+ " Days  , " +hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
   
   const closemodel = () => {
     props.set(false);
@@ -98,8 +98,8 @@ return (
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <CloseRoundedIcon onClick={closemodel} />
         <h1>in progress model</h1>
-       
         <TextField
           required
           id="title"
@@ -128,6 +128,7 @@ return (
           InputLabelProps={{
             shrink: true,
           }}
+          value={date}
           onChange={(e) => setdate(e.target.value)}
           error={error && !date}
           helperText={error && !date ? "enterdate Error" : ""}

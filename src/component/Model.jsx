@@ -12,6 +12,8 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import { useFormik } from "formik";
 import { alldata } from './Data';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
 
 const style = {
   position: 'absolute',
@@ -31,10 +33,9 @@ export default function BasicModal(props) {
   const [description, setdescripton] = useState()
   const [date, setdate] = useState()
   const [error, setError] = useState(false);
-
-
   const [Data, setData] = useState(alldata)
   const [priority, setpriority] = useState()
+  const {newdate,setnewdate} = useState (new Date);
 
   const currentDate = new Date();
   const oldDate = new Date(date);
@@ -63,6 +64,7 @@ export default function BasicModal(props) {
     id:id,
     name: name,
     description: description,
+    newdate:newdate,
     date: date,
     daysDiff: daysDiff,
     atime: atime,
@@ -70,9 +72,10 @@ export default function BasicModal(props) {
   }
   setname('');
   setdescripton('');
+  setnewdate(new Date);
   setdate('');
   setpriority('');
-  setError(false);
+  // setError(false);
   props.add(data)
   props.set(false); 
     };
@@ -114,6 +117,8 @@ return (
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+      <CloseRoundedIcon  onClick={closemodel}  />
+
         <h1>backmodel</h1>
         <TextField
           required

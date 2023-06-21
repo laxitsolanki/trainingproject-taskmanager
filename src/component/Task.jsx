@@ -38,27 +38,27 @@ function Task(props) {
     // create fun object to data add 
     const add = (data) => {
         console.log(data)
-        // let record = {
-        //     name: data.name,
-        //     description: data.description,
-        //     date : data.date,
-        //     daysDiff: data.daysDiff,
-        //     atime: data.atime,
-        //     priority: data.priority,
-        //   }
+        let record = {
+            name: data.name,
+            description: data.description,
+            date : data.date,
+            daysDiff: data.daysDiff,
+            atime: data.atime,
+            priority: data.priority,
+          }
         setdata(old => [...old, data])
     }
 
     const addp = (progress) => {
         console.log(progress)
-        // let record = {
-        //     name: progress.name,
-        //     description: progress.description,
-        //     date : progress.daysDiff,
-        //     daysDiff: progress.daysDiff,
-        //     atime: progress.atime,          
-        //      priority: progress.priority
-        //   }
+        let record = {
+            name: progress.name,
+            description: progress.description,
+            date : progress.daysDiff,
+            daysDiff: progress.daysDiff,
+            atime: progress.atime,          
+             priority: progress.priority
+          }
         setprogress(old => [...old, progress])
     }
 
@@ -113,8 +113,8 @@ function Task(props) {
     }, [currentDateTime]);
 
     const progresMoving = (item) => {
-        setprogress((prevRows) => [...prevRows, item]);
         setdata((preData) => preData.filter((date) => date.name !== item.name))
+        setprogress((prevRows) => [...prevRows, item]);
         setProSavetime(Date())
         console.log(item)
     }
@@ -132,7 +132,7 @@ function Task(props) {
                     const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
                     const secondsDiff = Math.floor((timeDiff / 1000) % 60);
 
-                    const inProgressreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff} Left`;
+                    const inProgressreverseTime = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff}`; 
                     item.inProgressreverseTime = inProgressreverseTime;
                 }
                 else {
@@ -154,13 +154,20 @@ function Task(props) {
 
     }
     // ------ InProgress Curent Reverse Time 
+
+    const doneMoving = (item) => {
+        setdone((prevRows) => [...prevRows, item]);
+        setprogress((preData) => preData.filter((date) => date.name !== item.name))
+        setProSavetime(Date())
+    } 
+
+    // const [showtime, setShowtime] = useState("");
+ 
     const doneupdateReverseTime = () => {
         const currentDate = new Date();
         setdone((oldData) => {
             return oldData.map((item) => {
 
-                // const futureDate = new Date(item.date);
-                // const timeDiff = futureDate - currentDate;
                 const time1 = item.atime || "";
                 const time2 = item.inProgressreverseTime || "";
                 // console.log(time1,"aaa")
@@ -181,13 +188,14 @@ function Task(props) {
                     const daysDiff = Math.floor(timeDifferenceInSeconds / (1000 * 3600 * 24));
                     const hoursDiff = Math.floor((timeDifferenceInSeconds / (1000 * 3600)) % 24);
                     const minutesDiff = Math.floor((timeDifferenceInSeconds / (1000 * 60)) % 60);
-                    const secondsDiff = Math.floor((timeDifferenceInSeconds / 1000) % 60);
+                    const secondsDiff = timeDifferenceInSeconds % 60;
+
 
                     const timeDifference = `${daysDiff} Days, ${hoursDiff}:${minutesDiff}:${secondsDiff}`
                     item.timeDifference = timeDifference;
                 }
                 else {
-                    item.timeDifference = "Expired";
+                    item.timeDifference = "Expired";        
                 }
                 return item;
             });
@@ -195,15 +203,10 @@ function Task(props) {
     };
     useEffect(() => {
         const timer = setInterval(doneupdateReverseTime, 1000);
-        return () => clearInterval(timer);
-    }, [currentDateTime]);
+        // return () => clearInterval(timer);
+    }, []);
 
-    const doneMoving = (item) => {
-        setdone((prevRows) => [...prevRows, item]);
-        setprogress((preData) => preData.filter((date) => date.name !== item.name))
-        setProSavetime(Date())
-
-    }
+    
 
     const prority = (key) => {
         if (key === 1) {
@@ -282,7 +285,7 @@ function Task(props) {
                                                     <h2> {item.name}</h2>
                                                 </Typography>
                                                 <Typography sx={{ mb: 1.6 }} color="text.secondary">
-                                                    <h3> {item.description}</h3>
+                                                    <h3> {item.description}</h3>      
                                                 </Typography>
                                                 <Typography variant="body2" paddingLeft={30} >
                                                     {/* <h3>{item.date}</h3> */}
@@ -327,7 +330,7 @@ function Task(props) {
                                                 </Typography>
                                                 <Typography variant="body2" paddingLeft={35}>
                                                     {/* <b>{item.date}</b> */}
-                                                    <b>Totel Spend Time : {item.donereverseTime} </b>
+                                                    <b>Totel Spend Time : {item.timeDifference} </b>
 
                                                 </Typography>
                                             </CardContent>
