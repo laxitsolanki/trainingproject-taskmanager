@@ -11,6 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
+import CancelIcon from '@mui/icons-material/Cancel';
+
 
 import { alldata } from './Data';
 
@@ -110,6 +112,7 @@ export default function BasicModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+        <CancelIcon  onClick={closeModal} />
           <TextField
             required
             id="title"

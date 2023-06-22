@@ -114,7 +114,7 @@ function Task(props) {
 
     const progresMoving = (item) => {
         setdata((preData) => preData.filter((date) => date.name !== item.name))
-        setprogress((prevRows) => [...prevRows, item]);
+        setprogress((prevRows) => [...prevRows, item]); 
         setProSavetime(Date())
         console.log(item)
     }
@@ -161,17 +161,16 @@ function Task(props) {
         setProSavetime(Date())
     } 
 
-    // const [showtime, setShowtime] = useState("");
+    const [showtime, setShowtime] = useState("");
  
     const doneupdateReverseTime = () => {
-        const currentDate = new Date();
+        // const currentDate = new Date();
         setdone((oldData) => {
             return oldData.map((item) => {
 
                 const time1 = item.atime || "";
                 const time2 = item.inProgressreverseTime || "";
-                // console.log(time1,"aaa")
-                // console.log(time2,"bbb")
+        
                 const [days1, time1Str] = time1 ? time1.split(", ") : ["", ""];
                 const [days2, time2Str] = time2 ? time2.split(", ") : ["", ""];
                 
@@ -180,14 +179,13 @@ function Task(props) {
                 
                 const timeInSeconds1 = parseInt(days1) * 24 * 60 * 60 + hours1 * 60 * 60 + minutes1 * 60 + seconds1;
                 const timeInSeconds2 = parseInt(days2) * 24 * 60 * 60 + hours2 * 60 * 60 + minutes2 * 60 + seconds2;
-                // console.log(timeInSeconds1,"a")
-                // console.log(timeInSeconds2,"b")
+              
         
                 const timeDifferenceInSeconds = timeInSeconds1 - timeInSeconds2;
                 if (timeDifferenceInSeconds >= 0) {
-                    const daysDiff = Math.floor(timeDifferenceInSeconds / (1000 * 3600 * 24));
-                    const hoursDiff = Math.floor((timeDifferenceInSeconds / (1000 * 3600)) % 24);
-                    const minutesDiff = Math.floor((timeDifferenceInSeconds / (1000 * 60)) % 60);
+                    const daysDiff = Math.floor(timeDifferenceInSeconds / (24 * 60 * 60));
+                    const hoursDiff = Math.floor((timeDifferenceInSeconds % (24 * 60 * 60)) / (60 * 60));
+                    const minutesDiff = Math.floor((timeDifferenceInSeconds % (60 * 60)) / 60);
                     const secondsDiff = timeDifferenceInSeconds % 60;
 
 
@@ -195,7 +193,8 @@ function Task(props) {
                     item.timeDifference = timeDifference;
                 }
                 else {
-                    item.timeDifference = "Expired";        
+                    // item.timeDifference = "Expired";  
+
                 }
                 return item;
             });
