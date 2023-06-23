@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
@@ -22,7 +23,6 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  // height:250,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -92,18 +92,6 @@ export default function BasicModal(props) {
     viewti()
 }, [])
 
-
-  // const prority = (key) => {
-  //   if (key === 1) {
-  //     return <Radio checked={true} color="success" size="small" />
-  //   }
-  //   else if (key === 2) {
-  //     return <Radio checked={true} color="error" size="small" />
-  //   }
-  //   else if (key === 3) {
-  //     return <Radio checked={true} color="default" size="small" />
-  //   }
-  // }
   return (
     <div>
       <Modal
@@ -112,7 +100,9 @@ export default function BasicModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+        <Grid style={{paddingBottom:1, marginLeft:380, cursor: 'pointer' }}>
         <CancelIcon  onClick={closeModal} />
+        </Grid>
           <TextField
             required
             id="title"

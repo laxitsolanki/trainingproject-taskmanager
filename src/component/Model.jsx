@@ -27,15 +27,16 @@ const style = {
 };
 
 export default function BasicModal(props) {
+  const [Data, setData] = useState(alldata)
   const [showmodel, setshowmodel] = useState(props.call)
   const [name, setname] = useState()
   const [description, setdescripton] = useState()
+  const [priority, setpriority] = useState()
   const [date, setdate] = useState()
   const [error, setError] = useState(false);
+  const [newdate, setnewdate] = useState(new Date);
 
 
-  const [Data, setData] = useState(alldata)
-  const [priority, setpriority] = useState()
 
   const currentDate = new Date();
   const oldDate = new Date(date);
@@ -44,26 +45,28 @@ export default function BasicModal(props) {
   const hoursDiff = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
   const minutesDiff = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
   const secondsDiff = Math.floor((timeDiff % (1000 * 60)) / 1000);
-  const atime = hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
+  const atime = daysDiff+ " Days  , " + hoursDiff + ":" + minutesDiff + ":" + secondsDiff;
   
   const closemodel = () => {
     props.set(false);
   };
+
   const savemodel = (e) => {
     e.preventDefault();
     // props.set(false);  
 
   //object creacte
-    var id = Math.floor(Math.random() * 100 + 1).toString(); 
+    var gid = Math.floor(Math.random() * 100 + 1).toString(); 
     // console.log(id);
     if (!name || !description || !date || !priority) {
       setError(true); 
     } 
     else {
   let data = {
-    id:id,
+    id:gid,
     name: name,
     description: description,
+    newdate:newdate,
     date: date,
     daysDiff: daysDiff,
     atime: atime,
@@ -72,6 +75,7 @@ export default function BasicModal(props) {
   setname('');
   setdescripton('');
   setdate('');
+  setnewdate('');
   setpriority('');
   setError(false);
   props.add(data)
@@ -115,8 +119,8 @@ return (
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-      <CloseRoundedIcon onClick={closemodel} />
-        <h1>backmodel</h1>
+      <CloseRoundedIcon onClick={closemodel} style={{cursor: 'pointer',marginLeft:380}} />
+        <h1 style={{paddingBottom:0,marginLeft:100,marginTop:0}}>backmodel</h1>
         <TextField
           required
           id="title"

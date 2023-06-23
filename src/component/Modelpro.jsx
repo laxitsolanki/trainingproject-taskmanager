@@ -104,8 +104,8 @@ return (
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1>in progress model</h1>
-         <CloseRoundedIcon onClick={closemodel} />
+         <CloseRoundedIcon onClick={closemodel} style={{cursor: 'pointer',marginLeft:380}} />
+        <h1 style={{marginLeft:70,marginTop:0}}>in progress model</h1>
         <TextField
           required
           id="title"
